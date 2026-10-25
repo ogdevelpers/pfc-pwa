@@ -1,25 +1,27 @@
 "use client";
 
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { CalendarDays, Home, Image as ImageIcon, LayoutGrid, User, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { CalendarDays, Sun, Gamepad2, Trophy, MessageCircle } from "lucide-react";
+import { WelcomeModal } from "@/components/welcome-modal";
+import { Sheet } from "@/components/sheet";
 import { LoginScreen } from "@/components/login-screen";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 const nav = [
-  { href: "/", label: "Home", icon: Home, match: (path: string) => path === "/" },
-  { href: "/itinerary", label: "Itinerary", icon: CalendarDays, match: (path: string) => path.startsWith("/itinerary") },
-  { href: "/hub", label: "Hub", icon: LayoutGrid, match: (path: string) => path === "/hub" },
-  { href: "/gallery", label: "Gallery", icon: ImageIcon, match: (path: string) => path.startsWith("/gallery") },
-  { href: "/profile", label: "Profile", icon: User, match: (path: string) => path.startsWith("/profile") },
+  { href: "/", label: "Today", icon: Sun, match: (path: string) => path === "/" },
+  { href: "/itinerary", label: "Schedule", icon: CalendarDays, match: (path: string) => path.startsWith("/itinerary") },
+  { href: "/games", label: "Play", icon: Gamepad2, match: (path: string) => path.startsWith("/games") },
+  { href: "/leaderboard", label: "Board", icon: Trophy, match: (path: string) => path === "/leaderboard" },
+  { href: "/chat", label: "Chat", icon: MessageCircle, match: (path: string) => path === "/chat" },
 ];
 
 function BottomNav() {
   const pathname = usePathname();
   return (
-    <nav className="z-30 border-t border-line bg-white px-1 pb-[max(0.35rem,env(safe-area-inset-bottom))] pt-1.5">
+    <nav aria-label="Main navigation" className="dock relative z-30 mx-3 mb-[max(0.45rem,env(safe-area-inset-bottom))] mt-2 shrink-0 px-1 py-1.5">
       <ul className="grid grid-cols-5">
         {nav.map((item) => {
           const active = item.match(pathname);
@@ -30,11 +32,15 @@ function BottomNav() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex flex-col items-center gap-1 rounded-xl py-1.5 text-[10px] font-semibold",
-                  active ? "text-navy" : "text-muted",
+                  "pressable flex flex-col items-center gap-1 rounded-2xl py-2 text-[10px] font-semibold",
+                  active ? "bg-navy/10 text-navy" : "text-muted",
                 )}
               >
-                <Icon size={21} strokeWidth={active ? 2.4 : 1.8} />
+                <Icon
+                  size={21}
+                  strokeWidth={active ? 2.4 : 1.8}
+                  className={cn("transition-transform duration-200", active && "-translate-y-0.5 scale-110")}
+                />
                 {item.label}
               </Link>
             </li>
@@ -58,15 +64,7 @@ function NoticeSheet() {
   const { noticesOpen, closeNotices, announcements } = useApp();
   if (!noticesOpen) return null;
   return (
-    <div className="absolute inset-0 z-50 flex flex-col justify-end bg-navy/45">
-      <button type="button" className="flex-1" aria-label="Close announcements" onClick={closeNotices} />
-      <div className="max-h-[80%] overflow-y-auto rounded-t-[28px] bg-cream px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="font-serif text-2xl text-navy">Announcements</h2>
-          <button type="button" onClick={closeNotices} aria-label="Close" className="grid h-10 w-10 place-items-center">
-            <X size={20} />
-          </button>
-        </div>
+    <Sheet title="Announcements" onClose={closeNotices}>
         <div className="space-y-3">
           {announcements.map((item) => (
             <article key={item.id} className="card p-4">
@@ -83,24 +81,26 @@ function NoticeSheet() {
         >
           Open the event hub
         </Link>
-      </div>
-    </div>
+    </Sheet>
   );
 }
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const mainRef = useRef<HTMLElement>(null);
+  const router = useRouter();
+  const [welcomeOpen, setWelcomeOpen] = useState(false);
+  const pathname = usePathname();
   const { signedIn, noticesOpen, toast } = useApp();
-  const locked = noticesOpen || !signedIn;
+  const locked = noticesOpen || welcomeOpen || !signedIn;
 
   return (
-    <div id="pfc-frame" className="relative flex h-full w-full max-w-[430px] flex-col bg-cream shadow-[0_30px_80px_rgba(7,30,61,0.28)] [transform:translateZ(0)]">
+    <div data-home={pathname === "/"} id="pfc-frame" className="relative flex h-full w-full max-w-[430px] flex-col shadow-[0_30px_80px_rgba(7,30,61,0.28)] [transform:translateZ(0)]">
       <main
         ref={mainRef}
         inert={!signedIn}
         aria-hidden={!signedIn}
         className={cn(
-          "scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto",
+          "scroll-area min-h-0 flex-1 overflow-y-auto overscroll-contain pb-4",
           locked && "overflow-hidden",
           !signedIn && "invisible",
         )}
@@ -113,13 +113,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <ScrollReset target={mainRef} />
         </Suspense>
       ) : (
-        <LoginScreen />
+        <LoginScreen onSignedIn={() => { setWelcomeOpen(true); router.replace("/"); }} />
       )}
-      {signedIn ? <NoticeSheet /> : null}
+      {signedIn && welcomeOpen ? <WelcomeModal onClose={() => setWelcomeOpen(false)} /> : null}
+      {signedIn && !welcomeOpen ? <NoticeSheet /> : null}
       {toast ? (
         <div
           role="status"
-          className="pointer-events-none absolute left-4 right-4 top-[max(1rem,env(safe-area-inset-top))] z-40 rounded-2xl bg-navy px-4 py-3 text-center text-sm text-white shadow-lg"
+          className="toast-in pointer-events-none absolute left-4 right-4 top-[max(1rem,env(safe-area-inset-top))] z-40 rounded-2xl bg-navy px-4 py-3 text-center text-sm text-white shadow-lg"
         >
           {toast}
         </div>

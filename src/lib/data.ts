@@ -173,7 +173,7 @@ export const announcements: Announcement[] = [
   {
     id: "a1",
     title: "Welcome dinner moves to the terrace",
-    body: "Saturday’s welcome dinner is on the terrace at 7:30 PM. The breeze comes up after sunset, so bring a light layer.",
+    body: "Sunday’s welcome dinner is on the terrace at 7:30 PM. The breeze comes up after sunset, so bring a light layer.",
     when: "14 Nov",
   },
   {
@@ -185,7 +185,7 @@ export const announcements: Announcement[] = [
   {
     id: "a3",
     title: "Gala colour is your squad colour",
-    body: "Sunday’s gala is cocktail dress, with a touch of your squad colour. A scarf, a pocket square, or a pair of shoes is enough.",
+    body: "Monday’s gala is cocktail dress, with a touch of your squad colour. A scarf, a pocket square, or a pair of shoes is enough.",
     when: "13 Nov",
   },
   {
@@ -196,16 +196,16 @@ export const announcements: Announcement[] = [
   },
   {
     id: "a5",
-    title: "The board locks at noon on Monday",
+    title: "The board locks at noon on Tuesday",
     body: "Scores freeze at 12:00 on 17 November, just before awards. Anything earned after that still counts as a memory.",
     when: "12 Nov",
   },
 ];
 
 export const agendaDays: AgendaDay[] = [
-  { id: "day-1", dateLabel: "15 Nov", weekday: "Saturday", title: "Arrive and welcome" },
-  { id: "day-2", dateLabel: "16 Nov", weekday: "Sunday", title: "Discover and play" },
-  { id: "day-3", dateLabel: "17 Nov", weekday: "Monday", title: "Finale" },
+  { id: "day-1", dateLabel: "15 Nov", weekday: "Sunday", title: "Arrive and welcome" },
+  { id: "day-2", dateLabel: "16 Nov", weekday: "Monday", title: "Discover and play" },
+  { id: "day-3", dateLabel: "17 Nov", weekday: "Tuesday", title: "Finale" },
 ];
 
 export const agendaItems: AgendaItem[] = [

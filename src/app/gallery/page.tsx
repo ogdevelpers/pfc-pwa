@@ -48,7 +48,8 @@ export default function GalleryPage() {
         </div>
       }
     >
-      <div className="space-y-4 px-4 py-4">
+      <div className="stagger space-y-4 px-4 py-4">
+        <section className="px-1 pb-2 pt-1"><p className="eyebrow">YOUR GATHERING, CAPTURED</p><h2 className="mt-2 text-2xl font-semibold leading-tight tracking-tight text-ink">The moments stay with you.</h2><p className="mt-2 text-sm leading-5 text-muted">Find familiar faces and the little highlights from your time on the Riviera.</p></section>
         <form
           className="flex gap-2"
           onSubmit={(event) => {
@@ -66,6 +67,8 @@ export default function GalleryPage() {
             />
           </label>
         </form>
+        <div className="flex flex-wrap gap-2" aria-label="Suggested photo searches">{["Boat", "Terrace", "Squad"].map((term) => <button key={term} type="button" onClick={() => { setFilter("all"); setQuery(term === "Squad" ? profile.teamId : term); }} className="glass min-h-11 px-4 text-xs font-medium">{term} ↗</button>)}{query ? <button type="button" onClick={() => { setQuery(""); setFilter("all"); }} className="min-h-11 px-2 text-xs font-semibold text-navy">Clear search</button> : null}</div>
+        <p role="status" className="px-1 text-xs text-muted">{visible.length} {visible.length === 1 ? "moment" : "moments"}{query ? ` matching “${query}”` : " from the gathering"}</p>
         <Pills
           value={filter}
           onChange={setFilter}
@@ -109,7 +112,7 @@ export default function GalleryPage() {
         )}
       </div>
       {open ? (
-        <div className="fixed inset-0 z-50 flex flex-col bg-navy-deep text-white">
+        <div className="sheet-backdrop fixed inset-0 z-50 flex flex-col bg-navy-deep text-white">
             <div className="flex items-center justify-between px-2 pt-[env(safe-area-inset-top)]">
               <button type="button" onClick={() => setOpen(null)} aria-label="Close photo" className="grid h-11 w-11 place-items-center">
                 <X />

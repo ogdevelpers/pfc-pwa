@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LogOut } from "lucide-react";
 import { Screen } from "@/components/ui";
 import { games, teams } from "@/lib/data";
 import { useApp } from "@/lib/store";
@@ -24,7 +25,7 @@ export default function ProfilePage() {
 
   return (
     <Screen title="Profile">
-      <div className="space-y-4 px-4 py-4">
+      <div className="stagger space-y-4 px-4 py-4">
         <section className="card flex items-center gap-4 p-4">
           <span
             className="grid h-16 w-16 place-items-center rounded-3xl font-serif text-2xl"
@@ -37,6 +38,10 @@ export default function ProfilePage() {
             <span className="text-sm text-muted">{squad.name}</span>
           </span>
         </section>
+
+        <button type="button" onClick={signOut} className="flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-white/85 px-4 py-3 text-sm font-semibold text-red-700">
+          <LogOut size={17} /> Sign out
+        </button>
 
         <section className="grid grid-cols-3 gap-2">
           {[
@@ -67,6 +72,7 @@ export default function ProfilePage() {
             type="button"
             role="switch"
             aria-checked={profile.notifications}
+            aria-label="Announcement alerts"
             onClick={() => updateProfile({ notifications: !profile.notifications })}
             className={cn("h-7 w-12 rounded-full p-1", profile.notifications ? "bg-navy" : "bg-line")}
           >
@@ -88,9 +94,6 @@ export default function ProfilePage() {
           </Link>
         </div>
 
-        <button type="button" onClick={signOut} className="w-full rounded-full py-3 text-sm font-semibold text-red-700">
-          Sign out
-        </button>
       </div>
     </Screen>
   );

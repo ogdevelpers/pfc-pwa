@@ -32,7 +32,7 @@ export function GameScreen({ slug }: { slug: string }) {
 
   return (
     <Screen title={game.title} back="/games">
-      <div className="space-y-4 px-4 py-4">
+      <div className="stagger space-y-4 px-4 py-4">
         <div className="flex items-center gap-3">
           <GameIcon kind={game.kind} />
           <div>

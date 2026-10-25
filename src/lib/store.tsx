@@ -321,7 +321,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [toast, setToast] = useState<string | null>(null);
   const syncing = useRef(false);
   const localMessagesRef = useRef(state.localMessages);
-  localMessagesRef.current = state.localMessages;
+  useEffect(() => {
+    localMessagesRef.current = state.localMessages;
+  }, [state.localMessages]);
   const squadMessagesRef = useRef<ChatMessage[] | null>(null);
 
   useEffect(() => {

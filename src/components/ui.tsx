@@ -38,7 +38,7 @@ export function Pills<T extends string>({
   options: { value: T; label: string }[];
 }) {
   return (
-    <div className="flex gap-2">
+    <div className="segmented flex gap-1">
       {options.map((option) => {
         const active = option.value === value;
         return (
@@ -48,8 +48,8 @@ export function Pills<T extends string>({
             aria-pressed={active}
             onClick={() => onChange(option.value)}
             className={cn(
-              "flex-1 rounded-full px-3 py-2.5 text-sm font-semibold",
-              active ? "bg-navy text-white" : "bg-white text-navy shadow-card",
+              "pressable min-w-0 flex-1 rounded-full px-2 py-2.5 text-xs font-semibold",
+              active ? "bg-white text-navy shadow-card" : "text-muted",
             )}
           >
             {option.label}

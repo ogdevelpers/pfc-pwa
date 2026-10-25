@@ -13,7 +13,7 @@ export default function EventPage() {
 
   return (
     <Screen title="Event Info" back="/">
-      <div className="space-y-6 px-4 py-4">
+      <div className="stagger space-y-6 px-4 py-4">
         <section>
           <p className="text-xs font-semibold tracking-wide text-gold-ink">THE GATHERING</p>
           <h2 className="font-serif text-3xl text-navy">People, partnership and progress.</h2>

@@ -22,7 +22,8 @@ export default function GamesPage() {
 
   return (
     <Screen title="Games" back="/">
-      <div className="space-y-4 px-4 py-4">
+      <div className="stagger space-y-4 px-4 py-4">
+        <section className="px-1 pb-2 pt-1"><p className="eyebrow">A LITTLE FRIENDLY RIVALRY</p><h2 className="mt-2 text-2xl font-semibold leading-tight tracking-tight text-ink">Let the good times play.</h2><p className="mt-2 text-sm leading-5 text-muted">Discover the coast, take on a challenge, and bring your squad a little closer.</p></section>
         <Pills
           value={filter}
           onChange={setFilter}

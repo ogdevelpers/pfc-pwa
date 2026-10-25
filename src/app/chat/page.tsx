@@ -143,7 +143,7 @@ export default function ChatPage() {
               {group.items.map((message) => {
                 const mine = isMine(message, profile.id, profile.name);
                 return (
-                  <div key={message.id} className={cn("flex items-end gap-2", mine && "flex-row-reverse")}>
+                  <div key={message.id} className={cn("bubble-in flex items-end gap-2", mine && "flex-row-reverse")}>
                     <span
                       className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-[10px] font-bold"
                       style={{ background: squad.color, color: squad.ink }}

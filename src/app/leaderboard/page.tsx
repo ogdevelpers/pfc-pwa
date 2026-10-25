@@ -24,7 +24,8 @@ export default function LeaderboardPage() {
 
   return (
     <Screen title="Leaderboard" back="/hub">
-      <div className="space-y-4 px-4 py-4">
+      <div className="stagger space-y-4 px-4 py-4">
+        <section className="px-1 pb-2 pt-1"><p className="eyebrow">SIX SQUADS. ONE SPIRIT.</p><h2 className="mt-2 text-2xl font-semibold leading-tight tracking-tight text-ink">Every moment counts.</h2><p className="mt-2 text-sm leading-5 text-muted">Cheer on your squad and see where your shared adventures take you.</p></section>
         <Pills
           value={scope}
           onChange={(next) => {

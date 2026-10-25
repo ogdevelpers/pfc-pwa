@@ -46,10 +46,8 @@ const features = [
 export default function HubPage() {
   return (
     <Screen title="Hub">
-      <div className="space-y-3 px-4 py-4">
-        <p className="px-1 text-sm leading-6 text-muted">
-          Everything for the gathering, in one place. Six tools, one weekend.
-        </p>
+      <div className="stagger space-y-3 px-4 py-4">
+        <section className="px-1 pb-3 pt-1"><p className="eyebrow">YOUR POCKET COMPANION</p><h2 className="mt-2 text-2xl font-semibold tracking-tight">A gathering of possibilities.</h2><p className="mt-2 text-sm leading-5 text-muted">Explore, connect, and make yourself at home.</p></section>
         {features.map((feature) => {
           const Icon = feature.icon;
           return (
